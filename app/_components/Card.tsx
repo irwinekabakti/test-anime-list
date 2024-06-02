@@ -11,6 +11,10 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ anime }) => {
+  const { loading, error, data } = useQuery(GET_ANIME_DETAILS);
+
+  console.log(data, "<==");
+
   return (
     <div className="col-span-1 md:col-span-1 mb-6 md:mb-0">
       <div className="shadow-md rounded-lg overflow-hidden bg-[#fff] h-full transition duration-300 hover:shadow-2xl">

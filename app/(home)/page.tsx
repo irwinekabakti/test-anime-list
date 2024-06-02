@@ -11,7 +11,7 @@ const Home: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { loading, data, error } = useQuery(GET_ANIME_LIST);
 
-  console.log(data, "<==");
+  // console.log(data, "<==");
 
   if (loading) {
     return <div>Loading...</div>;
@@ -23,9 +23,8 @@ const Home: React.FC = () => {
 
   const animeList: Anime[] = data.Page.media;
 
-  const totalPages = Math.ceil(animeList.length / 12); // Calculate total pages
+  const totalPages = Math.ceil(animeList.length / 12);
 
-  // Slice animeList to display items for the current page
   const paginatedAnimeList = animeList.slice(
     (currentPage - 1) * 12,
     currentPage * 12
