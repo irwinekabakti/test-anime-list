@@ -1,14 +1,23 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ANIME_LIST } from "@/graphql/queries";
 import Link from "next/link";
 import { Anime } from "@/types";
+import Pagination from "../(shared)/Pagination";
 
-const Card: React.FC = () => {
-  const { loading, data, error } = useQuery(GET_ANIME_LIST, {
+interface CardProps {
+  page: number;
+  onPageChange: (page: number) => void;
+}
+
+const Card: React.FC<CardProps> = ({ page }, { onPageChange }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const { loading, data, error, fetchMore } = useQuery(GET_ANIME_LIST, {
     variables: {
       perPage: 12,
-      page: 1,
+      page: currentPage,
     },
   });
 
@@ -21,7 +30,6 @@ const Card: React.FC = () => {
   }
 
   const animeList: Anime[] = data.Page.media;
-  console.log(animeList, "<==");
 
   return (
     <div className="card">
@@ -44,6 +52,11 @@ const Card: React.FC = () => {
           </div>
         ))}
       </div>
+      <Pagination
+        totalPages={data.Page.pageInfo.lastPage}
+        currentPage={page}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 };
