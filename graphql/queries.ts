@@ -24,4 +24,27 @@ const GET_ANIME_LIST = gql`
   }
 `;
 
-export { GET_ANIME_LIST };
+const GET_ANIME_DETAILS = gql`
+  query GetAnimeDetails($id: Int!) {
+    Media(id: $id, type: ANIME) {
+      id
+      title {
+        romaji
+        english
+        native
+      }
+      description
+      coverImage {
+        medium
+        large
+      }
+      genres
+      status
+      episodes
+      averageScore
+      meanScore
+    }
+  }
+`;
+
+export { GET_ANIME_LIST, GET_ANIME_DETAILS };

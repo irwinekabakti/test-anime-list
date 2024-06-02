@@ -1,4 +1,3 @@
-// Pagination.tsx
 import React from "react";
 
 interface PaginationProps {
@@ -12,6 +11,7 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   onPageChange,
 }) => {
+  // Generate an array of page numbers
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
@@ -20,10 +20,10 @@ const Pagination: React.FC<PaginationProps> = ({
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`px-3 py-1 rounded-md focus:outline-none ${
+          className={`py-2 px-4 mb-8 rounded-full ${
             page === currentPage
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              ? "bg-red-600 text-[#fff]"
+              : "bg-slate-600 text-[#fff]"
           }`}>
           {page}
         </button>
