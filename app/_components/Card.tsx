@@ -31,13 +31,13 @@ const Card: React.FC<CardProps> = ({ anime }) => {
           <h5 className="text-xl font-semibold text-center">
             {anime.title.english || anime.title.romaji}
           </h5>
-          <div className="flex justify-around mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-2 md:gap-4">
             <Link
               href={`/detail/${anime.id}`}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded inline-block">
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold text-center px-4 py-2 rounded">
               Detail
             </Link>
-            <button className="bg-[#1a6068] hover:bg-[#144b51] text-white font-semibold px-4 py-2 rounded">
+            <button className="bg-[#1a6068] hover:bg-[#144b51] text-white font-semibold text-center px-4 py-2 rounded">
               Add
             </button>
           </div>

@@ -6,6 +6,7 @@ import Pagination from "../(shared)/Pagination";
 import { useQuery } from "@apollo/client";
 import { GET_ANIME_LIST } from "@/graphql/queries";
 import { Anime } from "@/types";
+import Banner from "../_components/Banner";
 
 const Home: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,6 +37,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
+      <Banner />
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-8 mx-4 lg:mx-8 gap-4">
         {paginatedAnimeList.map((anime: Anime) => (
           <Card key={anime.id} anime={anime} />
