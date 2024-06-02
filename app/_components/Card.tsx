@@ -1,25 +1,17 @@
 import React from "react";
 import Image from "next/image";
-import { Anime } from "@/types";
+import { Show } from "@/types";
 import Link from "next/link";
-import { useQuery } from "@apollo/client";
-import { GET_ANIME_DETAILS } from "@/graphql/queries";
-import { GET_ANIME_LIST } from "@/graphql/queries";
 
-interface CardProps {
-  anime: Anime;
+interface AnimeCardProps {
+  anime: Show;
 }
-
-const Card: React.FC<CardProps> = ({ anime }) => {
-  const { loading, error, data } = useQuery(GET_ANIME_DETAILS);
-
-  console.log(data, "<==");
-
+const Card: React.FC<AnimeCardProps> = ({ anime }) => {
   return (
     <div className="col-span-1 md:col-span-1 mb-6 md:mb-0">
       <div className="shadow-md rounded-lg overflow-hidden bg-[#fff] h-full transition duration-300 hover:shadow-2xl">
         <Image
-          src={anime.coverImage.large}
+          src={anime.coverImage.extraLarge}
           width={150}
           height={100}
           alt={anime.title.romaji}
@@ -29,7 +21,7 @@ const Card: React.FC<CardProps> = ({ anime }) => {
         />
         <div className="p-4">
           <h5 className="text-xl font-semibold text-center">
-            {anime.title.english || anime.title.romaji}
+            {anime.title.romaji}
           </h5>
           <div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-2 md:gap-4">
             <Link
