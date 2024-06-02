@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "./(shared)/Footer";
 import Navbar from "./(shared)/Navbar";
+import ApolloProvider from "@/graphql/ApolloProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +21,11 @@ const RootLayout: React.FC<RootLayoutProps> = ({
 }: RootLayoutProps) => (
   <html lang="en">
     <body className={inter.className}>
-      <Navbar />
-      {children}
-      <Footer />
+      <ApolloProvider>
+        <Navbar />
+        {children}
+        <Footer />
+      </ApolloProvider>
     </body>
   </html>
 );
