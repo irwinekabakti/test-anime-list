@@ -1,14 +1,42 @@
-interface Anime {
+// interface Anime {
+//   id: number;
+//   title: {
+//     romaji: string;
+//     english: string;
+//     native: string;
+//   };
+//   coverImage: {
+//     medium: string;
+//     large: string;
+//   };
+// }
+
+// export type { Anime };
+
+export interface User {
   id: number;
-  title: {
-    romaji: string;
-    english: string;
-    native: string;
-  };
-  coverImage: {
-    medium: string;
-    large: string;
-  };
+  job_title: string;
+  username: string;
+  password: string;
 }
 
-export type { Anime };
+interface ShowTitle {
+  romaji: string;
+}
+
+interface CoverImage {
+  extraLarge: string;
+  medium: string;
+}
+
+export interface Show {
+  id: number;
+  bannerImage?: string;
+  description: string;
+  title: ShowTitle;
+  coverImage: CoverImage;
+}
+
+export interface PageInfo {
+  total: number;
+}

@@ -4,6 +4,7 @@ const GET_ANIME_LIST = gql`
   query GetAnimeList($perPage: Int, $page: Int) {
     Page(perPage: $perPage, page: $page) {
       pageInfo {
+        total
         currentPage
         lastPage
         hasNextPage

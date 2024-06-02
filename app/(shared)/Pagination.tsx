@@ -1,3 +1,4 @@
+/*
 import React from "react";
 
 interface PaginationProps {
@@ -65,27 +66,30 @@ const Pagination: React.FC<PaginationProps> = ({
 };
 
 export default Pagination;
+*/
 
-/*
 import React from "react";
 
-interface CustomPaginationProps {
+interface PaginationProps {
   totalPages: number;
   currentPage: number;
   onPageChange: (page: number) => void;
+  style?: React.CSSProperties;
 }
 
-const CustomPagination: React.FC<CustomPaginationProps> = ({
+const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   currentPage,
   onPageChange,
+  style,
 }) => {
   const getPageNumbers = () => {
     const adjacentPages = 2;
     const pageNumbers = [];
     let startPage = Math.max(1, currentPage - adjacentPages);
-    let endPage = Math.min(totalPages, currentPage + adjacentPages * 2);
+    let endPage = Math.min(totalPages, currentPage + adjacentPages);
 
+    // Adjust startPage and endPage if currentPage is close to the first or last page
     if (currentPage <= adjacentPages) {
       endPage = Math.min(totalPages, adjacentPages * 2 + 1);
     } else if (currentPage >= totalPages - adjacentPages) {
@@ -100,7 +104,13 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
   };
 
   return (
-    <div className="flex justify-center space-x-2 mt-4">
+    <div className="flex justify-center space-x-2 mt-4" style={style}>
+      <button
+        disabled={currentPage === 1}
+        onClick={() => onPageChange(1)}
+        className="py-2 px-4 my-4 rounded-lg bg-blue-500 text-white disabled:bg-gray-300 disabled:text-gray-500">
+        {"<<"}
+      </button>
       <button
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
@@ -119,16 +129,20 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
           {page}
         </button>
       ))}
-
       <button
         disabled={currentPage === totalPages}
         onClick={() => onPageChange(currentPage + 1)}
         className="py-2 px-4 my-4 rounded-lg bg-blue-500 text-white disabled:bg-gray-300 disabled:text-gray-500">
         {">"}
       </button>
+      <button
+        disabled={currentPage === totalPages}
+        onClick={() => onPageChange(totalPages)}
+        className="py-2 px-4 my-4 rounded-lg bg-blue-500 text-white disabled:bg-gray-300 disabled:text-gray-500">
+        {">>"}
+      </button>
     </div>
   );
 };
 
-export default CustomPagination;
-*/
+export default Pagination;
