@@ -1,62 +1,48 @@
-"use client";
-
-import React, { useState } from "react";
-import { useQuery } from "@apollo/client";
-import { GET_ANIME_LIST } from "@/graphql/queries";
-import Link from "next/link";
+import React from "react";
+import Image from "next/image";
 import { Anime } from "@/types";
-import Pagination from "../(shared)/Pagination";
+import Link from "next/link";
+import { useQuery } from "@apollo/client";
+import { GET_ANIME_DETAILS } from "@/graphql/queries";
+import { GET_ANIME_LIST } from "@/graphql/queries";
 
 interface CardProps {
-  page: number;
-  onPageChange: (page: number) => void;
+  anime: Anime;
 }
 
-const Card: React.FC<CardProps> = ({ page }, { onPageChange }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const { loading, data, error, fetchMore } = useQuery(GET_ANIME_LIST, {
-    variables: {
-      perPage: 12,
-      page: currentPage,
-    },
-  });
+const Card: React.FC<CardProps> = ({ anime }) => {
+  const { loading, error, data } = useQuery(GET_ANIME_DETAILS);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error || !data) {
-    return <div>Error: {error ? error.message : "Data not available"}</div>;
-  }
-
-  const animeList: Anime[] = data.Page.media;
+  console.log(data, "<==");
 
   return (
-    <div className="card">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-8 mx-4 lg:mx-8 gap-4">
-        {animeList.map((anime) => (
-          <div key={anime.id} className="col-span-1 md:col-span-1 mb-6 md:mb-0">
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
-              <img src={anime.coverImage.medium} alt={anime.title.romaji} />
-              <div className="p-4">
-                <h5 className="text-xl font-semibold mb-2">
-                  {anime.title.english || anime.title.romaji}
-                </h5>
-                <Link
-                  href="#"
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded inline-block">
-                  Go somewhere
-                </Link>
-              </div>
-            </div>
+    <div className="col-span-1 md:col-span-1 mb-6 md:mb-0">
+      <div className="shadow-md rounded-lg overflow-hidden bg-[#fff] h-full transition duration-300 hover:shadow-2xl">
+        <Image
+          src={anime.coverImage.large}
+          width={150}
+          height={100}
+          alt={anime.title.romaji}
+          rel="preload"
+          quality={100}
+          className="mx-auto mt-6"
+        />
+        <div className="p-4">
+          <h5 className="text-xl font-semibold text-center">
+            {anime.title.english || anime.title.romaji}
+          </h5>
+          <div className="flex justify-around mt-6">
+            <Link
+              href={`/detail/${anime.id}`}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded inline-block">
+              Detail
+            </Link>
+            <button className="bg-[#1a6068] hover:bg-[#144b51] text-white font-semibold px-4 py-2 rounded">
+              Add
+            </button>
           </div>
-        ))}
+        </div>
       </div>
-      <Pagination
-        totalPages={data.Page.pageInfo.lastPage}
-        currentPage={page}
-        onPageChange={onPageChange}
-      />
     </div>
   );
 };
