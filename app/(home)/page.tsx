@@ -118,15 +118,18 @@ import { Show } from "@/types";
 
 const Home: React.FC = () => {
   const [animeList, setAnimeList] = useState<Show[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 0.1;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const loadAnime = async () => {
       try {
         const allAnime = await fetchShows({ currentPage });
+        console.log(allAnime.pageInfo, "<===");
         if (allAnime.shows) {
           setAnimeList(allAnime.shows);
+          setTotalItems(allAnime.pageInfo?.total ?? 0);
         } else {
           console.error("No shows found.");
         }
@@ -137,10 +140,7 @@ const Home: React.FC = () => {
     loadAnime();
   }, [currentPage]);
 
-  const totalItems = animeList.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  console.log(totalItems, "total item");
-  console.log(totalPages, "total pages");
+  const totalPages = Math.ceil(totalItems / itemsPerPage); // Calculate totalPages based on totalItems
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);

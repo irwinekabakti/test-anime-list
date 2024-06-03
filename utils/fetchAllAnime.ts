@@ -61,7 +61,7 @@ export async function fetchShows({
       variables: {
         id,
         page: currentPage,
-        perPage: 60,
+        perPage: 12,
         isAdult: false,
       },
     });
