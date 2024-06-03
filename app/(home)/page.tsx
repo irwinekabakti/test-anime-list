@@ -109,12 +109,13 @@ export default Home;
 
 // pages/index.tsx
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../_components/Card";
-import Pagination from "../(shared)/Pagination";
+import PaginationCustom from "../(shared)/Pagination";
 import { fetchShows } from "@/utils/fetchAllAnime";
 import Banner from "../_components/Banner";
 import { Show } from "@/types";
+import Stack from "@mui/material/Stack";
 
 const Home: React.FC = () => {
   const [animeList, setAnimeList] = useState<Show[]>([]);
@@ -140,7 +141,7 @@ const Home: React.FC = () => {
     loadAnime();
   }, [currentPage]);
 
-  const totalPages = Math.ceil(totalItems / itemsPerPage); // Calculate totalPages based on totalItems
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -154,13 +155,14 @@ const Home: React.FC = () => {
           <Card key={anime.id} anime={anime} />
         ))}
       </div>
-      <div className="overflow-x-auto">
-        <Pagination
+      <Stack spacing={2} alignItems="center" marginY={4}>
+        <PaginationCustom
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
+          setCurrentPage={setCurrentPage} // Pass setCurrentPage to PaginationCustom
         />
-      </div>
+      </Stack>
     </div>
   );
 };
