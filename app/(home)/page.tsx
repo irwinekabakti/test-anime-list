@@ -109,24 +109,28 @@ export default Home;
 
 // pages/index.tsx
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../_components/Card";
-import Pagination from "../(shared)/Pagination";
+import PaginationCustom from "../(shared)/Pagination";
 import { fetchShows } from "@/utils/fetchAllAnime";
 import Banner from "../_components/Banner";
 import { Show } from "@/types";
+import Stack from "@mui/material/Stack";
 
 const Home: React.FC = () => {
   const [animeList, setAnimeList] = useState<Show[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 0.1;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const loadAnime = async () => {
       try {
         const allAnime = await fetchShows({ currentPage });
+        console.log(allAnime.pageInfo, "<===");
         if (allAnime.shows) {
           setAnimeList(allAnime.shows);
+          setTotalItems(allAnime.pageInfo?.total ?? 0);
         } else {
           console.error("No shows found.");
         }
@@ -137,10 +141,7 @@ const Home: React.FC = () => {
     loadAnime();
   }, [currentPage]);
 
-  const totalItems = animeList.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  console.log(totalItems, "total item");
-  console.log(totalPages, "total pages");
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -154,13 +155,14 @@ const Home: React.FC = () => {
           <Card key={anime.id} anime={anime} />
         ))}
       </div>
-      <div className="overflow-x-auto">
-        <Pagination
+      <Stack spacing={2} alignItems="center" marginY={4}>
+        <PaginationCustom
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
+          setCurrentPage={setCurrentPage} // Pass setCurrentPage to PaginationCustom
         />
-      </div>
+      </Stack>
     </div>
   );
 };
